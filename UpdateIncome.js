@@ -11,7 +11,7 @@ incomeValue.textContent = '+ 0.00';
 const incomeList = document.querySelector('.income__list');
 
 // declaring main variable
-const incomeValues = [];
+export const incomeValues = [];
 
 const updateIncomeUI = function () {
   const value = incomeValues[incomeValues.length - 1];

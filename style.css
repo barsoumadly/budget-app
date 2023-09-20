@@ -1,6 +1,9 @@
 /**********************************************
 *** GENERAL
 **********************************************/
+:root {
+  --color: #28b9b5;
+}
 * {
   margin: 0;
   padding: 0;
@@ -144,7 +147,7 @@ body {
   font-size: 35px;
   background: none;
   border: none;
-  color: #28b9b5;
+  color: var(--color);
   cursor: pointer;
   display: inline-block;
   vertical-align: middle;
@@ -158,7 +161,7 @@ body {
 .add__description:focus,
 .add__value:focus {
   outline: none;
-  border: 1px solid #28b9b5;
+  border: 1px solid var(--color);
 }
 .add__btn:focus {
   outline: none;

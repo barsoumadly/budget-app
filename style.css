@@ -67,10 +67,10 @@ body {
 }
 .budget__income {
   margin-bottom: 10px;
-  background-color: #28b9b5;
+  background-color: #28b9b4d0;
 }
 .budget__expenses {
-  background-color: #ff5049;
+  background-color: #ff4f49d0;
 }
 .budget__income--text,
 .budget__expenses--text {
@@ -78,6 +78,7 @@ body {
   font-size: 13px;
   color: #444;
   margin-top: 2px;
+  font-weight: bold;
 }
 .budget__income--value,
 .budget__expenses--value {

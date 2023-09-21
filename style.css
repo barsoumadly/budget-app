@@ -3,6 +3,7 @@
 **********************************************/
 :root {
   --color: #28b9b5;
+  --budget-color: #ff5049;
 }
 * {
   margin: 0;
@@ -54,14 +55,18 @@ body {
   font-size: 18px;
   text-align: center;
   margin-bottom: 10px;
-  font-weight: 300;
+  font-weight: 400;
+}
+.budget__title--month {
+  color: #f1c40f;
 }
 .budget__value {
-  font-weight: 300;
+  font-weight: 400;
   font-size: 46px;
   text-align: center;
   margin-bottom: 25px;
   letter-spacing: 2px;
+  color: var(--budget-color);
 }
 .budget__income,
 .budget__expenses {
@@ -195,6 +200,7 @@ h2 {
 .item {
   padding: 13px;
   border-bottom: 1px solid #e7e7e7;
+  font-weight: bold;
 }
 .item:first-child {
   border-top: 1px solid #e7e7e7;

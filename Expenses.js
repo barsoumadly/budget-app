@@ -1,4 +1,8 @@
-import { totalValues } from './script.js';
+import {
+  filterPositiveTotalValues,
+  showBudgetValue,
+  totalValues,
+} from './script.js';
 
 const expensesTotalValueEl = document.querySelector('.budget__expenses--value');
 const expensesTotalPercentage = document.querySelector(
@@ -12,14 +16,14 @@ expensesTotalValueEl.textContent = '- 0.00';
 // reset expenses percentage
 expensesTotalPercentage.textContent = '---';
 
-const expenses = [];
+let expenses = [];
 let expensesPercentages = [];
 
 const calcItemPercentage = function (expenseValue) {
   let totalIncomeValues = totalValues.filter(val => val > 0);
   if (totalIncomeValues.length !== 0) {
     totalIncomeValues = totalIncomeValues.reduce((acc, val) => (acc += val));
-    const value = (expenseValue / totalIncomeValues) * 100;
+    const value = Math.round((expenseValue / totalIncomeValues) * 100);
     expensesPercentages.push(value);
     return `${value}%`;
   } else {
@@ -43,7 +47,9 @@ const addValueToExpensesList = function () {
        expenses[i].value
      )}</div>
      <div class="item__delete">
-      <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>
+      <button class="item__delete--btn" onclick= 
+      "deleteExpenseItem(${i})">
+      <i class="ion-ios-close-outline"></i></button>
      </div>
     </div>
    </div>`;
@@ -52,9 +58,15 @@ const addValueToExpensesList = function () {
 };
 
 const displayTotalExpensesValues = function () {
-  expensesTotalValueEl.textContent = `- ${new Intl.NumberFormat('en-US').format(
-    totalValues.filter(val => val < 0).reduce((acc, val) => (acc += val)) * -1
-  )}`;
+  if (expenses.length !== 0) {
+    expensesTotalValueEl.textContent = `- ${new Intl.NumberFormat(
+      'en-US'
+    ).format(
+      totalValues.filter(val => val < 0).reduce((acc, val) => (acc += val)) * -1
+    )}`;
+  } else {
+    expensesTotalValueEl.textContent = '- 0.00';
+  }
 };
 
 const showTotalPercentage = function () {
@@ -79,4 +91,35 @@ export const addExpenseValue = function (description, cost) {
 export const updatePercentageItems = function () {
   addValueToExpensesList();
   showTotalPercentage();
+};
+
+const remove = function (index) {
+  const newExpenses = [];
+  if (expenses.length !== 1) {
+    for (let i = 0; i < expenses.length; i++) {
+      if (index === i) continue;
+      else {
+        newExpenses.push(expenses[i]);
+      }
+    }
+    expenses = newExpenses;
+  } else {
+    expenses = newExpenses;
+  }
+};
+
+const updateTotalValues = function () {
+  filterPositiveTotalValues();
+  for (let i = 0; i < expenses.length; i++) {
+    totalValues.push(-Number.parseInt(expenses[i].value));
+  }
+};
+
+window.deleteExpenseItem = function (index) {
+  remove(index);
+  updateTotalValues();
+  addValueToExpensesList();
+  displayTotalExpensesValues();
+  showTotalPercentage();
+  showBudgetValue();
 };

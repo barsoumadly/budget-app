@@ -1,4 +1,8 @@
-import { totalValues } from './script.js';
+import {
+  showBudgetValue,
+  filterNegativeTotalValues,
+  totalValues,
+} from './script.js';
 import { updatePercentageItems } from './Expenses.js';
 
 const incomeTotalValueEl = document.querySelector('.budget__income--value');
@@ -7,7 +11,7 @@ const incomeContainer = document.querySelector('.income__list');
 // reset income value
 incomeTotalValueEl.textContent = '+ 0.00';
 
-const incomes = [];
+let incomes = [];
 
 const addValueToIncomesList = function () {
   incomeContainer.innerHTML = '';
@@ -21,7 +25,9 @@ const addValueToIncomesList = function () {
         incomes[i].value
       )}</div>
       <div class="item__delete">
-      <button class="item__delete--btn"><i      class="ion-ios-close-outline"></i></button>
+      <button class="item__delete--btn" 
+      onclick="deleteIncomeItem()">
+      <i class="ion-ios-close-outline"></i></button>
       </div>
      </div>
     </div>`;
@@ -30,9 +36,13 @@ const addValueToIncomesList = function () {
 };
 
 const displayTotalIncomeValues = function () {
-  incomeTotalValueEl.textContent = `+ ${new Intl.NumberFormat('en-US').format(
-    totalValues.filter(val => val > 0).reduce((acc, val) => (acc += val))
-  )}`;
+  if (incomes.length !== 0) {
+    incomeTotalValueEl.textContent = `+ ${new Intl.NumberFormat('en-US').format(
+      totalValues.filter(val => val > 0).reduce((acc, val) => (acc += val))
+    )}`;
+  } else {
+    incomeTotalValueEl.textContent = '+ 0.00';
+  }
 };
 
 export const addIncomeValue = function (description, cost) {
@@ -41,4 +51,36 @@ export const addIncomeValue = function (description, cost) {
   addValueToIncomesList();
   displayTotalIncomeValues();
   updatePercentageItems();
+};
+
+const remove = function (index) {
+  const newIncomes = [];
+  if (incomes.length !== 1) {
+    for (let i = 0; i < incomes.length; i++) {
+      if (index === i) continue;
+      else {
+        newIncomes.push(incomes[i]);
+      }
+    }
+    incomes = newIncomes;
+  } else {
+    incomes = newIncomes;
+  }
+};
+
+const updateTotalValues = function () {
+  filterNegativeTotalValues();
+  for (let i = 0; i < incomes.length; i++) {
+    totalValues.push(Number.parseInt(incomes[i].value));
+  }
+  // console.log(totalValues);
+};
+
+window.deleteIncomeItem = function (index) {
+  remove(index);
+  updateTotalValues();
+  addValueToIncomesList();
+  displayTotalIncomeValues();
+  updatePercentageItems();
+  showBudgetValue();
 };
